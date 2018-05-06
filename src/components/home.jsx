@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { db } from '../firebase'
 import { getPassmanager } from '../store/passmanager/actions'
 import jwt from 'jsonwebtoken'
+const token = localStorage.getItem('token')
+const decoded = jwt.verify(token, 'SECRET')
 
 class home extends Component {
   constructor () {
@@ -16,9 +18,7 @@ class home extends Component {
   componentDidMount() {
     this.props.getPassmanager()
   }
-  submitPassword() {
-    const token = localStorage.getItem('token')
-    const decoded = jwt.verify(token, 'SECRET')
+  submitPassword = () => {
     console.log(this.state)
     db.ref('password-manager/manager/').push({
       username: decoded.username,
@@ -33,6 +33,13 @@ class home extends Component {
     })
   }
   render() {
+    let dataArray = []
+    this.props.passmanager.data.map(data => {
+      if(decoded.username === data.username){
+        dataArray.push(data)
+      }
+    })
+    console.log(dataArray)
     return (
       <div>
         <h1>Home</h1>
@@ -49,6 +56,25 @@ class home extends Component {
           />
           <button type="button" onClick={this.submitPassword}>Submit</button>
         </form>
+        <h2>Password Manager</h2>
+          <table className="container">
+            <tr>
+              <th>#</th>
+              <th>Website</th>
+              <th>Password</th>
+            </tr>
+            {
+              dataArray.map((data, i)=> {
+                return (
+                  <tr>
+                    <td>{i+1}</td>
+                    <td>{data.website}</td>
+                    <td>{data.password}</td>
+                  </tr>
+                )
+              })
+            }
+          </table>
       </div>
     );
   }

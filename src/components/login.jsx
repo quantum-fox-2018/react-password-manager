@@ -87,7 +87,6 @@ class login extends Component {
           />
           <button type="button" onClick={this.login}>Login</button>
         </form>
-
       </div>
     );
   }
