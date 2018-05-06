@@ -1,0 +1,12 @@
+.header {
+  text-align: right;
+  background-color: #222;
+  padding: 10px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.container {
+  height: auto;
+  margin-top: 30px;
+}
