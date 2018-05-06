@@ -1,9 +1,12 @@
 import { GET_PASSWORD, GET_PENDING, GET_ERROR, CREATE_PASSWORD, UPDATE_PASSWORD, DELETE_PASSWORD } from './action.Types'
 
 const initialState = {
-  data : [],
+  data: [],
   loading: false,
-  error: false
+  error: {
+    status: false,
+    msg: ''
+}
 }
 
 const reducers = (state = initialState, action) => {
@@ -21,20 +24,39 @@ const reducers = (state = initialState, action) => {
         loading: false,
         error: false
       }
-      DELETE_PASSWORD:
-        return {
-          ...state,
-          loading: false,
-          error: false
-        }
-      default:
-      UPDATE_PASSWORD:
-        return {
-          ...state,
-          loading: false,
-          error: false
-        }
-        return state
+    case DELETE_PASSWORD:
+      return {
+        ...state,
+        loading: false,
+        error: false
+      }
+    case UPDATE_PASSWORD:
+      return {
+        ...state,
+        loading: false,
+        error: false
+      }
+    case GET_PENDING:
+      return {
+        ...state,
+        loading: true,
+        error: false
+      }
+     case GET_ERROR:
+     case GET_ERROR:
+     let errorObj = {
+         status: true,
+         msg: 'something is not right...'
+     }
+     return {
+         ...state,
+         error: {
+             ...errorObj
+         },
+         loading: false,
+     }
+    default:
+      return state
   }
 }
 

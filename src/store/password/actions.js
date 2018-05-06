@@ -1,15 +1,11 @@
 import { GET_PASSWORD, GET_PENDING, GET_ERROR, CREATE_PASSWORD, UPDATE_PASSWORD, DELETE_PASSWORD } from './action.Types'
 import db from '../../firebase'
+import firebase from 'firebase'
 
 export const createPassword = (payload) => {
+  let newPayload = {...payload, createdAt: firebase.database.ServerValue.TIMESTAMP}
   return dispatch => {
-    db.ref('passwordlist').push(payload)
-      .then(() => {
-        dispatch(successCreate())
-      })
-      .catch((err) => {
-        dispatch(error(err))
-      })
+    db.ref('passwordlist').push(newPayload)
   }
 }
 
@@ -17,8 +13,6 @@ export const getPassword = () => {
   return dispatch => {
     dispatch(pending())
     db.ref('passwordlist').on('value', (snapshot) => {
-      console.log(snapshot);
-
       dispatch(successGet(convertToArray(snapshot)))
     })
   }
@@ -41,28 +35,13 @@ export const deletePassword = (payload) => {
     result.forEach((dataResult) => {
       db.ref('passwordlist').child(`${dataResult}`).remove()
     })
-      .then(() => {
-        dispatch(successDelete())
-      })
-      .catch((err) => {
-        dispatch(error(err))
-      })
   }
 }
 
 export const updatePassword = (payload) => {
+   let newPayload = {...payload, updatedAt: firebase.database.ServerValue.TIMESTAMP}
   return dispatch => {
-    db.ref(`passwordlist/${payload.key}`).update({
-      url: payload.url,
-      username: payload.username,
-      password: payload.password,
-    })
-    .then(()=>{
-      dispatch(successUpdate())
-    })
-    .catch((err) => {
-      dispatch(error(err))
-    })
+    db.ref(`passwordlist/${payload.key}`).update(newPayload)
   }
 }
 
@@ -76,16 +55,4 @@ function error(error) {
 
 function successGet(payload) {
   return { type: GET_PASSWORD, payload }
-}
-
-function successCreate() {
-  return { type: CREATE_PASSWORD }
-}
-
-function successDelete() {
-  return { type: DELETE_PASSWORD }
-}
-
-function successUpdate() {
-  return { type: UPDATE_PASSWORD }
 }

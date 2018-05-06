@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import CreatePassword from './components/CreatePassword.jsx'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import ListPassword from './components/ListPassword.jsx';
+import NotFound from './components/NotFound.jsx'
 
 class App extends Component {
   render() {
@@ -11,11 +11,11 @@ class App extends Component {
       <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Password Manager</h1>
         </header>
        <Switch>
          <Route exact path='/' component={ListPassword} />
+         <Route path='*' component={NotFound} />
        </Switch>  
       </div>
       </BrowserRouter>
