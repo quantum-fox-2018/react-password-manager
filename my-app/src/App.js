@@ -7,6 +7,7 @@ import Addpassword from './components/AddPassword'
 import Editpassword from './components/EditPassword'
 import LoginUser from './components/Login'
 import SignUpUser from './components/Signup'
+import PrivateRoute from './PrivateRoute'
 
 class App extends Component {
   render() {
@@ -23,7 +24,7 @@ class App extends Component {
           <PrivateRoute path="/home" component={Home}/>
           <PrivateRoute path="/addpassword" component={Addpassword}/>
           <PrivateRoute path="/editpassword/:passId" component={Editpassword}/>
-          <Route path="*" 
+          <PrivateRoute path="*" 
             render = {() => (
               <h1>Page does not exist!</h1>
             )}
@@ -34,13 +35,11 @@ class App extends Component {
     );
   }
 }
-
-const userLogin = localStorage.getItem('username')
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
-    userLogin ? <Component {...props} /> : <Redirect to='/' />
-  )} />
-)
-
+// const userLogin = localStorage.getItem('token')
+// const PrivateRoute = ({ component: Component, ...rest }) => (
+//   <Route {...rest} render={(props) => (
+//     userLogin ? <Component {...props} /> : <Redirect to='/' />
+//   )} />
+// )
 
 export default App;
