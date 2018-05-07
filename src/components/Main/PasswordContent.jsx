@@ -15,12 +15,12 @@ class PasswordContent extends Component {
       )
     } else if (searchValue.length !== 0) {
       let passwordSearch = searchData.map((password) =>
-        <TbodyPassword data={password} key={password.id} />
+        <TbodyPassword data={password} key={"search-pwd"+password.id} />
       )
       return passwordSearch
     } else if (!loading && data && !error.status) {
       let passwordCollection = data.map((password) =>
-        <TbodyPassword data={password} key={password.id} />
+        <TbodyPassword data={password} key={"pwd"+password.id} />
       ) 
       return (passwordCollection)
     } else {

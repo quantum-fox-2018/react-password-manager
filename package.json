@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^4.13.1",
     "react": "^16.3.2",
+    "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.3.2",
     "react-materialize": "^2.2.0",
     "react-redux": "^5.0.7",
@@ -19,5 +20,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "enzyme-adapter-react-16": "^1.1.1"
   }
 }

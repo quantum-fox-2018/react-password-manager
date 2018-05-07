@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import swal from 'sweetalert'
 import { Register } from '../../store/user/user.action'
 
-class SignUp extends Component {
+export class SignUp extends Component {
   constructor() {
     super()
     this.state = {
@@ -16,7 +16,7 @@ class SignUp extends Component {
   
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     })
   }
 
@@ -41,7 +41,7 @@ class SignUp extends Component {
           <div className="form-container">
             <div className="row">
               <div className="input-field col s12">
-                <input id="SUemail" type="email" 
+                <input id="SUemail" type="email" name="SUemail" 
                 className="validate" value={this.state.SUemail} 
                 onChange={this.handleChange} required/>
                 <label htmlFor="SUemail">Email</label>
@@ -49,7 +49,7 @@ class SignUp extends Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input id="SUpassword" type="password" 
+                <input id="SUpassword" type="password" name="SUpassword"
                 className="validate" value={this.state.SUpassword} 
                 onChange={this.handleChange} required/>
                 <label htmlFor="SUpassword">Password</label>
@@ -57,7 +57,7 @@ class SignUp extends Component {
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input id="SUconPassword" type="password" 
+                <input id="SUconPassword" type="password" name="SUconPassword"
                 className="validate" value={this.state.SUconPassword} 
                 onChange={this.handleChange} required/>
                 <label htmlFor="conPassword">Confirm Password</label>

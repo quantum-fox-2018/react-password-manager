@@ -69,7 +69,7 @@ class TbodyPassword extends Component {
     } = this.props.data
 
     return (
-      <tr>
+      <tr key={"tbody-"+id}>
         <td>{url}</td>
         <td>{email}</td>
         <td id={'passId'+id}>{this.hidePassword(password)}</td>
@@ -86,11 +86,15 @@ class TbodyPassword extends Component {
 
             {/* more content: edit & delete */}
             <ul className="dropdown-menu">
-              <li><a data-toggle="modal" data-target={"#edit"+id}>Edit</a></li>
+              <li><a data-toggle="modal" data-target={"#edit"+id} >Edit</a></li>
               <li onClick={() => this.delPassword()}><a>Delete</a></li>
             </ul>
-            <EditPassword data={this.props.data} />
-            <ShowPass data={this.props.data} userData={this.props.user} />
+            <EditPassword data={this.props.data} key={"edit-pwd"+id}/>
+            <ShowPass 
+              data={this.props.data} 
+              userData={this.props.user} 
+              key={"show-pwd"+id}
+            />
           </div>
         </td>
       </tr>

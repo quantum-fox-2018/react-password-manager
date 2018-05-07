@@ -22,8 +22,9 @@ class SearchPassword extends Component {
     return (
       <div>
         <input type="text" id="searchPass" 
-        placeholder="Seach Password By Url"
-        value={this.state.searchTerms} onChange={this.handleChange}/>
+          placeholder="Seach Password By Url"
+          value={this.state.searchTerms} onChange={this.handleChange}
+        />
       </div>
     )
   }
