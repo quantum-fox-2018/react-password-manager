@@ -1,4 +1,4 @@
-import { GET_USER_DATA_PENDING, GET_USER_DATA_SUCCESS, GET_USER_DATA_ERROR } from './action.types'
+import { GET_USER_DATA_PENDING, GET_USER_DATA_SUCCESS } from './action.types'
 import { db }from '../../firebase'
 
 export const getUsers = () => {
@@ -21,8 +21,4 @@ const getUsersPending = () => ({
 const getUsersSuccess = (data) => ({
   type: GET_USER_DATA_SUCCESS,
   payload: data
-})
-
-const getUsersError = (error) => ({
-  type: GET_USER_DATA_ERROR
 })

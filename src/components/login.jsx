@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { db } from '../firebase'
 import { getUsers } from '../store/users/actions'
-const salt = bcrypt.genSaltSync(10);
 
 class login extends Component {
   constructor () {
@@ -19,25 +18,13 @@ class login extends Component {
   componentDidMount() {
     this.props.getUsers()
   }
-  register = () => {
-    const hash = bcrypt.hashSync(this.state.password, salt)
-    db.ref('password-manager/users/').push({
-      username: this.state.username,
-      email: this.state.email,
-      password: hash
-    })
-    const token = jwt.sign({username:this.state.username ,email: this.state.email}, 'SECRET')
-    localStorage.setItem('token', token)
-    alert('Register success!')
-    this.props.history.push('/home')
-  }
   login = () => {
     const users = this.props.users.data
     users.map(user => {
       if(user.email === this.state.email){
         const check = bcrypt.compareSync(this.state.password, user.password)
         if(check){
-          const token = jwt.sign({username:user.username ,email: user.email}, 'SECRET')
+          const token = jwt.sign({username:user.username ,email: user.email, password: user.password}, 'SECRET')
           localStorage.setItem('token', token)
           alert('Login success!')
           this.props.history.push('/home')
@@ -54,26 +41,7 @@ class login extends Component {
   render() {
     return (
       <div>
-        <form>
-          <h1>Register</h1>
-          <label>Username </label>
-          <input type="text" name="username" placeholder="username..."
-          value={this.state.username}
-          onChange={this.handleChange}
-          />
-          <label>Email </label>
-          <input type="text" name="email" placeholder="email..."
-          value={this.state.email}
-          onChange={this.handleChange}
-          />
-          <label>Password </label>
-          <input type="password" name="password" placeholder="password..."
-          value={this.state.password}
-          onChange={this.handleChange}
-          />
-          <button type="button" onClick={this.register}>Register</button>
-        </form>
-        <form>
+        <form className="login container">
           <h1>Login</h1>
           <label>Email </label>
           <input type="text" name="email" placeholder="email..."
@@ -85,7 +53,8 @@ class login extends Component {
           value={this.state.password}
           onChange={this.handleChange}
           />
-          <button type="button" onClick={this.login}>Login</button>
+          <button className="btn" type="button" onClick={this.login}>Login</button>
+          <span>Don't have an account? Register <Link to={"/register"}>here</Link> </span>
         </form>
       </div>
     );

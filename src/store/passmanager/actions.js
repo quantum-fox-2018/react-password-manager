@@ -1,4 +1,4 @@
-import { GET_PASSMANAGER_DATA_PENDING, GET_PASSMANAGER_DATA_SUCCESS, GET_PASSMANAGER_DATA_ERROR } from './action.types'
+import { GET_PASSMANAGER_DATA_PENDING, GET_PASSMANAGER_DATA_SUCCESS } from './action.types'
 import { db }from '../../firebase'
 
 export const getPassmanager = () => {
@@ -7,7 +7,11 @@ export const getPassmanager = () => {
     db.ref('password-manager/manager').on('value', (snapshot) => {
       let passmanagerArray = []
       snapshot.forEach(data => {
-        passmanagerArray.push(data.val())
+        let obj = {
+          ...data.val(),
+          key: data.key
+        }
+        passmanagerArray.push(obj)
       })
       dispatch(getPassmanagerSuccess(passmanagerArray))
     })
@@ -21,8 +25,4 @@ const getPassmanagerPending = () => ({
 const getPassmanagerSuccess = (data) => ({
   type: GET_PASSMANAGER_DATA_SUCCESS,
   payload: data
-})
-
-const getPassmanagerError = (error) => ({
-  type: GET_PASSMANAGER_DATA_ERROR
 })
