@@ -153,8 +153,8 @@ class ListPassword extends Component {
               <TableHeaderColumn dataField='url' editable={{ validator: urlValidator }} validateState>URL</TableHeaderColumn>
               <TableHeaderColumn dataField='username' editable={{ validator: userValidator }}>Username</TableHeaderColumn>
               <TableHeaderColumn dataField='password' editable={{ validator: passValidator }}>Password</TableHeaderColumn>
-              <TableHeaderColumn dataField='createdAt' editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Created At</TableHeaderColumn>
-              <TableHeaderColumn dataField='updatedAt' editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Updated At</TableHeaderColumn>
+              <TableHeaderColumn dataField='createdAt' hiddenOnInsert editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Created At</TableHeaderColumn>
+              <TableHeaderColumn dataField='updatedAt' hiddenOnInsert editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Updated At</TableHeaderColumn>
             </BootstrapTable>
           </div>
         </center>

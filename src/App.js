@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import CreatePassword from './components/CreatePassword.jsx'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import ListPassword from './components/ListPassword.jsx';
 import NotFound from './components/NotFound.jsx'

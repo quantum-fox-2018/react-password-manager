@@ -43,7 +43,6 @@ const reducers = (state = initialState, action) => {
         error: false
       }
      case GET_ERROR:
-     case GET_ERROR:
      let errorObj = {
          status: true,
          msg: 'something is not right...'
