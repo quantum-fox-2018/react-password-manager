@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getPassword, createPassword, deletePassword, updatePassword } from '../store/password/actions'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
-import swal from 'sweetalert2'
 import moment from 'moment'
+import Loading from './Loading.jsx'
+import HideLoading from './HideLoading.jsx'
+import swal from 'sweetalert2'
 
 
 class ListPassword extends Component {
@@ -29,7 +31,7 @@ class ListPassword extends Component {
       password: row.password
     }
     this.props.createPassword(newPass)
-    
+
   }
 
   onAfterDeleteRow = (rowKeys) => {
@@ -46,26 +48,34 @@ class ListPassword extends Component {
   }
 
 
+  cellButton = (cell, row, enumObject, rowIndex) => {
+    return (
+      <button
+        type="button"
+        onClick={() =>
+          <div>
+            {
+              swal(row.password)
+            }
+          </div>
+        }
+      >
+        <i class="far fa-eye"></i>
+      </button>
+    )
+  }
+
   render() {
     if (this.props.passwords.loading) {
       return (
-        <div>
-          {
-            swal.showLoading()
-          }
-        </div>
+        <Loading />
       )
 
     }
     else if (this.props.passwords.error.status) {
       return (
         <div>
-          {
-            swal.hideLoading()
-          }
-          {
-            swal.close()
-          }
+          <HideLoading />
           <h2 style={{ color: 'red' }} >{this.props.passwords.error.msg}</h2>
         </div>
       )
@@ -135,15 +145,12 @@ class ListPassword extends Component {
         return response;
       }
 
+
+
       return (
         <center>
-          {
-            swal.hideLoading()
-          }
-          {
-            swal.close()
-          }
-          <div style={{ width: '85%' }}>
+          <HideLoading />
+          <div style={{ width: '95%' }}>
             <p style={{ color: 'red' }}><b>Double Click Row For Edit</b></p>
             <BootstrapTable deleteRow={true} selectRow={selectRowProp}
               data={this.props.passwords.data} insertRow={true} options={options}
@@ -152,7 +159,13 @@ class ListPassword extends Component {
               <TableHeaderColumn dataField='key' isKey hidden hiddenOnInsert autoValue>Key</TableHeaderColumn>
               <TableHeaderColumn dataField='url' editable={{ validator: urlValidator }} validateState>URL</TableHeaderColumn>
               <TableHeaderColumn dataField='username' editable={{ validator: userValidator }}>Username</TableHeaderColumn>
-              <TableHeaderColumn dataField='password' editable={{ validator: passValidator }}>Password</TableHeaderColumn>
+              <TableHeaderColumn width='10%' dataField='password' editable={{ validator: passValidator, type: 'password' }} dataFormat={(cDate) => '*******'}>Password</TableHeaderColumn>
+              <TableHeaderColumn width='10%'
+                dataField='button'
+                dataFormat={this.cellButton.bind(this)}
+              >
+                Show
+              </TableHeaderColumn>
               <TableHeaderColumn dataField='createdAt' hiddenOnInsert editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Created At</TableHeaderColumn>
               <TableHeaderColumn dataField='updatedAt' hiddenOnInsert editable={false} dataFormat={(cDate) => moment(cDate).format("MMMM Do YYYY (hh:mm a)")}>Updated At</TableHeaderColumn>
             </BootstrapTable>
