@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import bcrypt from 'bcryptjs'
 import {signupUser} from '../store/users/users.action'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 class Signup extends Component {
   constructor () {
     super ()
@@ -21,9 +24,10 @@ class Signup extends Component {
 
   addNewUser = () => {
     let {history} = this.props
+    let hash = bcrypt.hashSync(this.state.password,salt)
     let newUser = {
       username: this.state.username,
-      password: this.state.password
+      password: hash
     }
     this.props.signupUser(newUser)
     history.push('/')

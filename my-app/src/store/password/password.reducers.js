@@ -6,8 +6,6 @@ import {
   DELETE_PASSWORD,
   EDIT_PASSWORD
 } from './password.actionType'
-import { editPassword } from './password.action';
-
 
 const initialState = {
   data: [],

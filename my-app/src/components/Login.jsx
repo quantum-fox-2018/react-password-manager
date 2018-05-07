@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import {Link} from 'react-router-dom'
 import {getUser} from '../store/users/users.action'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import swal from 'sweetalert2'
+
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 class Login extends Component {
   constructor () {
@@ -29,12 +35,18 @@ class Login extends Component {
     dataUser.map(value => {
       console.log('mapvalue==', value)
       if(value.username === this.state.username) {
-        localStorage.setItem('username', this.state.username)
-        alert('login success!!')
-        this.props.history.push('/home')
-        return
-      } else {
-        alert('login failed!')
+        let checkPass = bcrypt.compareSync(this.state.password,value.password)
+        if(checkPass) {
+          let token = jwt.sign({id:value.id, password: value.password}, 'kitten')
+          localStorage.setItem('username', this.state.username)
+          localStorage.setItem('token', token)
+          swal(
+            'Welcome!',
+            'Welcome back to password manager!',
+            'success'
+          )
+          this.props.history.push('/home')
+        }
       }
     })
 
