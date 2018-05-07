@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import CreateData from '../components/CreateData'
 import LoadData from '../components/LoadData'
-import NavBar from '../components/NavBar'
+import Headers from '../components/Headers'
+
+import '../css/Home.css'
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <NavBar />
-        <CreateData /> <br/>
+        <Headers />
         <LoadData />
       </div>
     )

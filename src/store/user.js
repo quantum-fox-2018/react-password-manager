@@ -2,8 +2,8 @@ import { observable } from 'mobx'
 import swal from 'sweetalert2'
 
 
-import { db } from './firebase'
-import auth from './auth'
+import { db, auth } from './firebase'
+import authData from './auth'
 
 class PassManager {
   @observable listData = []
@@ -74,20 +74,24 @@ class PassManager {
         swal({
           type: 'question',
         })
-      } else if (result.value[0] === auth.password) {
-        let data = this.listData.map(data => {
-          if(data.id === idData) {
-            return {...data, showPassword: !data.showPassword}
-          } else {
-            return {...data}
-          }
+      } else if (result.value[0]) {
+        auth.signInWithEmailAndPassword(authData.email, result.value[0])
+        .then(res => {
+          let data = this.listData.map(data => {
+            if(data.id === idData) {
+              return {...data, showPassword: !data.showPassword}
+            } else {
+              return {...data}
+            }
+          })
+          this.listData = data  
         })
-        this.listData = data  
-      } else if (result.value[0] !== auth.password) {
-        swal({
-          type: 'error',
-          title: 'Oops...',
-          text: 'Password is wrong!'
+        .catch(err => {
+          swal({
+            type: 'error',
+            title: 'Error',
+            text: err.message
+          })
         })
       }
     })
@@ -154,6 +158,11 @@ class PassManager {
       input: 'password',
       confirmButtonText: 'Confirm',
       showCancelButton: true,
+      inputAttributes: {
+        'minlength': 6,
+        'autocapitalize': 'off',
+        'autocorrect': 'off'
+      }
     }).queue([
       {
         title: 'Edit Password',

@@ -1,47 +1,68 @@
-import { auth } from './firebase'
 import { observable } from 'mobx'
+import swal from 'sweetalert2'
+import { auth } from './firebase'
+
 
 class Auth {
   userId = ''
-  password = ''
+  email = ''
   @observable statusAuth = false
+
+  errorNotif(err) {
+    swal({
+      position: 'center',
+      type: 'error',
+      title: 'Check your password',
+      text: err.message
+    })
+  }
+
+  successNotif(info) {
+    swal({
+      position: 'center',
+      type: 'success',
+      title: info,
+      showConfirmButton: false,
+      timer: 1000
+    })
+  }
 
   signUp(email, password) {
     auth.createUserWithEmailAndPassword(email, password)
     .then(res => {
-      this.password = password
+      this.email = email
       this.userId = res.uid
       this.statusAuth = true
-      alert('success signup')
+      this.successNotif('Enjoy!')
     })
     .catch(err => {
-      alert('failed')
+      this.errorNotif(err)
     })
   }
 
   signIn(email, password) {
     auth.signInWithEmailAndPassword(email, password)
     .then(res => {
-      this.password = password
+      this.email = email
       this.userId = res.uid
       this.statusAuth = true
-      alert('success login')
+      this.successNotif('Welcome Back!')
     })
     .catch(err => {
-      alert('failed')
+      this.errorNotif(err)
     })
   }
 
   signOut() {
-    this.password = ''
+    this.email = ''
     this.userId = ''
     auth.signOut()
     .then(res => {
-      alert('signout!')
+      this.successNotif('See You!')
       this.statusAuth = false
     })
     .catch(err => {
-      alert('error')
+      this.errorNotif(err)
     })
   }
 }

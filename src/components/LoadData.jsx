@@ -8,7 +8,7 @@ import auth from '../store/auth'
 import user from '../store/user'
 
 @observer class loadData extends Component {
-  componentWillMount() {
+  componentDidMount() {
     user.loadData(auth.userId)
   }
 
@@ -33,9 +33,9 @@ import user from '../store/user'
       Cell: row => (
         <div>
           {row.original.showPassword ? (
-            <p>{row.value}</p>
+            <span>{row.value}</span>
           ) : (
-            <p>{user.hashPassword(row.value)}</p>
+            <span>{user.hashPassword(row.value)}</span>
           )}
         </div>
       )
@@ -44,7 +44,7 @@ import user from '../store/user'
       accessor: 'createdAt',
       Cell: row => (
         <div>
-          <p>{this.timestamp(row.value)}</p>
+          <span>{this.timestamp(row.value)}</span>
         </div>
       )
     },{
@@ -53,9 +53,9 @@ import user from '../store/user'
       Cell: row => (
         <div>
           {!row.value ? (
-            <p>...</p>
+            <span>...</span>
           ) : (
-            <p>{this.timestamp(row.value)}</p>
+            <span>{this.timestamp(row.value)}</span>
           )}
         </div>
       )
@@ -63,18 +63,19 @@ import user from '../store/user'
       Header: 'Action',
       Cell: row => (
         <div key={row.original.id}>
-          <button onClick={ ()=> user.editPassword(auth.userId, row.original.id) }>edit</button>
-          <button onClick={ ()=> user.showPassword(auth.userId, row.original.id) }>see</button>
-          <button onClick={ ()=> user.deleteData(auth.userId, row.original.id) }>delete</button>
+          <button onClick={ ()=> user.editPassword(auth.userId, row.original.id) }><i className="fas fa-pen-square"></i></button>
+          <button onClick={ ()=> user.showPassword(auth.userId, row.original.id) }><i className="fas fa-eye"></i></button>
+          <button onClick={ ()=> user.deleteData(auth.userId, row.original.id) }><i className="fas fa-trash"></i></button>
         </div>
       )
     }]
     return (
-    <div style={{paddingBottom:"100px"}}>
+    <div className="listTable">
       <ReactTable
         data={user.listData}
         columns={columns}
         defaultPageSize={5}
+        showPageSizeOptions= {false}
       />
     </div>
     )
