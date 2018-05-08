@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Link, Route, Switch, Redirect} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 
 // const userLogin = localStorage.getItem('token')
 const PrivateRoute = ({ component: Component, ...rest }) => (

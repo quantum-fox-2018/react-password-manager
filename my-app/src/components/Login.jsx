@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import {Link} from 'react-router-dom'
+import {Link, BrowserRouter as Router} from 'react-router-dom'
 import {getUser} from '../store/users/users.action'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import swal from 'sweetalert2'
 
-const saltRounds = 10;
-const salt = bcrypt.genSaltSync(saltRounds);
-
-class Login extends Component {
+export class Login extends Component {
   constructor () {
     super ()
     this.state ={
@@ -49,12 +46,11 @@ class Login extends Component {
         }
       }
     })
-
-    
   }
 
   render() {
     return (
+      // <Router>
       <div className="container">
         <form>
           <div className="form-group">
@@ -80,6 +76,7 @@ class Login extends Component {
           </Link>
         </div>
       </div>
+      // </Router>
     );
   }
 }

@@ -8,6 +8,7 @@ import swal from 'sweetalert2'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import './main.css'
+import ListPassword from './ListPassword'
 
 class Home extends Component {
   constructor () {
@@ -139,50 +140,11 @@ class Home extends Component {
               <tbody>
                 {this.state.dataSearch.length > 0 ?
                 this.state.dataSearch.map((passList, i) => {
-                  return (
-                    <tr key={passList.id}>
-                    <td>{i+1}</td>
-                    <td>{passList.url}</td>
-                    <td>{passList.username}</td>
-                    <td>{passList.password}</td>
-                    <td>{passList.createdAt}</td>
-                    <td>{passList.updatedAt}</td>
-                    <td>
-                    <button type="button" className="btn btn-warning" onClick={this.showPassword}><i className="far fa-eye"></i></button>
-                    <Link to={{
-                      pathname:`/editpassword/${passList.id}`
-                    }}>
-                      <button type="button" className="btn btn-success"><i className="fas fa-pencil-alt"></i></button>
-                    </Link>
-                    <button type="button" className="btn btn-danger" onClick={() => this.deletePassword(passList.id)}><i className="fas fa-trash-alt"></i></button>
-                    </td>
-                  </tr>
-                  )
+                  return (<ListPassword data={passList} i={i} key={passList.id}/>)
                 })
                 :
                 this.props.myPassword.data.map((passList, i) => {
-                  return (
-                    <tr key={passList.id}>
-                    <td>{i+1}</td>
-                    <td>{passList.url}</td>
-                    <td>{passList.username}</td>
-                    <td>
-                      <input type={this.state.passwordType} value={passList.password} disabled 
-                      style={{border: 'none', backgroundColor:'white', textAlign:'center'}}/>
-                    </td>
-                    <td>{passList.createdAt}</td>
-                    <td>{passList.updatedAt}</td>
-                    <td>
-                    <button type="button" className="btn btn-warning" onClick={this.showPassword}><i className="far fa-eye"></i></button>
-                    <Link to={{
-                      pathname:`/editpassword/${passList.id}`
-                    }}>
-                      <button type="button" className="btn btn-success"><i className="fas fa-pencil-alt"></i></button>
-                    </Link>
-                    <button type="button" className="btn btn-danger" onClick={() => this.deletePassword(passList.id)}><i className="fas fa-trash-alt"></i></button>
-                    </td>
-                  </tr>
-                  )
+                  return (<ListPassword data={passList} i={i} key={passList.id}/>)
                 })
                 }
               </tbody>
