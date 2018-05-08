@@ -22,7 +22,9 @@ class PassManager {
   }
 
   checkLength(password) {
+    console.log(password.length)
     this.valLength = (password.length >= 6)
+    console.log(this.valLength)
     return this.valLength
   }
 
@@ -53,50 +55,6 @@ class PassManager {
     }
   }
 
-  hashPassword(str) {
-    let length = str.length
-    let bullet = String.fromCharCode(0x2022)
-    return bullet.repeat(length)
-  }
-
-  showPassword(userId, idData) {
-    swal.mixin({
-      input: 'password',
-      confirmButtonText: 'Confirm',
-      showCancelButton: true,
-    }).queue([
-      {
-        title: 'Password',
-        text: 'enter your password'
-      }
-    ]).then((result) => {
-      if (!result.value) {
-        swal({
-          type: 'question',
-        })
-      } else if (result.value[0]) {
-        auth.signInWithEmailAndPassword(authData.email, result.value[0])
-        .then(res => {
-          let data = this.listData.map(data => {
-            if(data.id === idData) {
-              return {...data, showPassword: !data.showPassword}
-            } else {
-              return {...data}
-            }
-          })
-          this.listData = data  
-        })
-        .catch(err => {
-          swal({
-            type: 'error',
-            title: 'Error',
-            text: err.message
-          })
-        })
-      }
-    })
-  }
-
   loadData(userId) {
     db.ref(`/user/${userId}`).once('value', (snap) => {
       const pass = snap.val()
@@ -110,6 +68,12 @@ class PassManager {
       }
       this.listData = arr
     })
+  }
+
+  hashPassword(str) {
+    let length = str.length
+    let bullet = String.fromCharCode(0x2022)
+    return bullet.repeat(length)
   }
 
   createData(userId, url, username, password) {
@@ -153,43 +117,143 @@ class PassManager {
     })
   }
 
-  editPassword(userId, idData) {
+  showPassword(userId, idData) {
     swal.mixin({
       input: 'password',
       confirmButtonText: 'Confirm',
       showCancelButton: true,
-      inputAttributes: {
-        'minlength': 6,
-        'autocapitalize': 'off',
-        'autocorrect': 'off'
-      }
     }).queue([
       {
-        title: 'Edit Password',
-        text: 'enter your new password'
+        title: 'Password',
+        text: 'enter your password'
       }
     ]).then((result) => {
-      if (result.value) {
-        let data = this.listData.map(data => {
-          if(data.id === idData) {
-            let newData = {...data, password: result.value[0], updatedAt: Date.now()}
-            db.ref(`/user/${userId}`).child(idData).update(newData)
-            return newData
-          } else {
-            return {...data}
-          }
-        })
-        this.listData = data
-        swal({
-          position: 'center',
-          type: 'success',
-          title: 'Your password has been edited',
-          showConfirmButton: false,
-          timer: 1500
-        })
-      } else {
+      if (!result.value) {
         swal({
           type: 'question',
+        })
+      } else if (result.value[0]) {
+        auth.signInWithEmailAndPassword(authData.email, result.value[0])
+        .then(res => {
+          let data = this.listData.map(data => {
+            if(data.id === idData) {
+              return {...data, showPassword: !data.showPassword}
+            } else {
+              return {...data}
+            }
+          })
+          this.listData = data  
+        })
+        .catch(err => {
+          swal({
+            type: 'error',
+            title: 'Error',
+            text: err.message
+          })
+        })
+      }
+    })
+  }
+
+  editPassword(userId, idData) {
+    //PASSWORDCONFIRM
+    swal.mixin({
+      input: 'password',
+      confirmButtonText: 'Confirm',
+      showCancelButton: true,
+    }).queue([
+      {
+        title: 'Password Yourpass',
+        text: 'enter your password Yourpass'
+      }
+    ]).then((result) => {
+      if (!result.value) {
+        swal({
+          type: 'question',
+        })
+      } else if (result.value[0]) {
+        auth.signInWithEmailAndPassword(authData.email, result.value[0])
+        .then(res => {
+
+          //EDIT PASSWORD
+          swal.mixin({
+            input: 'password',
+            confirmButtonText: 'Confirm',
+            showCancelButton: true
+          }).queue([
+            {
+              title: 'Edit Password',
+              text: 'enter your new password for this url'
+            }
+          ]).then((result) => {
+            if(this.checkLength(result.value[0])) {
+              if(this.checkUpper(result.value[0])) {
+                if(this.checkLower(result.value[0])) {
+                  if(this.checkNumber(result.value[0])) {
+                    if(this.checkSpecial(result.value[0])) {
+                      //EXECUTION
+                      if (result.value) {
+                        let data = this.listData.map(data => {
+                          if(data.id === idData) {
+                            let newData = {...data, password: result.value[0], updatedAt: Date.now()}
+                            db.ref(`/user/${userId}`).child(idData).update(newData)
+                            return newData
+                          } else {
+                            return {...data}
+                          }
+                        })
+                        this.listData = data
+                        swal({
+                          position: 'center',
+                          type: 'success',
+                          title: 'Your password has been edited',
+                          showConfirmButton: false,
+                          timer: 1500
+                        })
+
+                      } else {
+                        swal({
+                          type: 'question',
+                        })
+                      }
+                    } else {
+                      swal({
+                        type: 'info',
+                        text: 'Password must contain Specialcase'
+                      })
+                    }
+                  } else {
+                    swal({
+                      type: 'info',
+                      text: 'Password must contain number'
+                    })
+                  }
+                } else {
+                  swal({
+                    type: 'info',
+                    text: 'Password must contain lowercase'
+                  })
+                }
+              } else {
+                swal({
+                  type: 'info',
+                  text: 'Password must contain Uppercase'
+                })
+              }
+            } else {
+              swal({
+                type: 'info',
+                text: 'Password length min 6'
+              })
+            }
+          })
+        })
+        .catch(err => {
+          swal({
+            type: 'error',
+            title: 'Error',
+            text: err.message
+          })
         })
       }
     })
