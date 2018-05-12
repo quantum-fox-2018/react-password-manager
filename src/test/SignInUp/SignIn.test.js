@@ -16,28 +16,38 @@ import store from '../../store'
 Enyzme.configure({ adapter: new Adapter()})
 
 describe('<SignIn />', () => {
+  let wrapper;
+
+  beforeAll(() => {
+    wrapper = shallow(<SignIn />)
+  })
+
   it('renders without crashing', () => {
     const div = document.createElement('div')
-    const wrapper = shallow(<SignIn />)
     ReactDOM.render(wrapper, div)
     ReactDOM.unmountComponentAtNode(div)
   })
 
+  it('should have tag input with id (email, password) and button Sign In', () => {
+    expect(wrapper.containsAllMatchingElements([
+      <input id="email" />,
+      <input id="password" />,
+      <button>Sign In</button>
+    ])).toBeTruthy()
+  })
+
   it('should have email and password state with empty string', () => {
-    const wrapper = shallow(<SignIn />)
     expect(wrapper.state('email')).toBe('')
     expect(wrapper.state('password')).toBe('')
   })
 
   it('onChange, email state should change', () => {
-    const wrapper = shallow(<SignIn />)
     wrapper.find('#email').simulate('change', 
     {target: {name: 'email', value:'danny'}})
     expect(wrapper.state('email')).toBe('danny')
   })
 
   it('onChange, password state should change', () => {
-    const wrapper = shallow(<SignIn />)
     wrapper.find('#password').simulate('change', 
     {target: {name: 'password', value:'pass123'}})
     expect(wrapper.state('password')).toBe('pass123')

@@ -22,7 +22,7 @@ class AddPassword extends Component {
 
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
+      [e.target.name]: e.target.value
     }, () => {
       this.uCaseValidation()
       this.lCaseValidation()
@@ -31,7 +31,7 @@ class AddPassword extends Component {
       this.lengthValidation()
     })
   }
-
+  
   uCaseValidation = () => {
     let upperCase = /[A-Z]/g.test(this.state.newPassword)
     if (upperCase) {
@@ -95,14 +95,17 @@ class AddPassword extends Component {
     let email = this.state.newEmail 
 
     if (upperCase && lowerCase && specialChar &&
-    number && minLength && url && email) {
-      this.setState({ 
-        isItValid: true 
-      }, () => {
-          addButton.classList.remove('disabled')
-      })
+    number && minLength) {
+      // pas testing bikin error soalny addButton null pas render pertama kali
+      if (addButton && url && email) {
+        addButton.classList.remove('disabled')
+      }
+      this.setState({isItValid: true})
     } else {
-      this.setState({ isItValid: false}, () => {addButton.classList.add('disabled')})
+      if (addButton && url && email) {
+        addButton.classList.add('disabled')
+      }
+      this.setState({isItValid: false})
     }
   }
 
@@ -113,9 +116,15 @@ class AddPassword extends Component {
       newEmail: '',
       newPassword: ''
     })
-    document.getElementById('newUrl').value = ''
-    document.getElementById('newEmail').value = ''
-    document.getElementById('newPassword').value = ''
+    // bikin error pas di testing karena getElement sebelum render
+    let url = document.getElementById('newUrl')
+    let email = document.getElementById('newEmail')
+    let pass = document.getElementById('newPassword')
+    if ( url && email && pass ) {
+      url.value = ''
+      email.value = ''
+      pass.value = ''
+    }
   }
 
   submitDataPass = (e) => {
@@ -126,7 +135,7 @@ class AddPassword extends Component {
       email: this.state.newEmail,
       password: this.state.newPassword
     }
-    console.log('Add Data Pass ===>', newPass)
+    // console.log('Add Data Pass ===>', newPass)
     this.props.AddPasswordAction(newPass, userId)
     this.resetState()
   }
@@ -154,25 +163,25 @@ class AddPassword extends Component {
               <h4 className="header2">Add New Password</h4>
               <div className="row">
                 <div className="input-field col s12 m3">
-                  <input id="newUrl" type="text" 
+                  <input id="newUrl" name="newUrl" type="text" 
                   className="validate" value={this.state.newUrl}
                   onChange={this.handleChange} required/>
                   <label htmlFor="newUrl">Url</label>
                 </div>
                 <div className="input-field col s12 m3">
-                  <input id="newEmail" type="text" 
+                  <input id="newEmail" name="newEmail" type="text" 
                   className="validate" value={this.state.newEmail}
                   onChange={this.handleChange} required/>
                   <label htmlFor="newEmail">Email / Username</label>
                 </div>
                 <div className="input-field col s12 m3">
-                  <input id="newPassword" type="password" 
+                  <input id="newPassword" name="newPassword" type="password" 
                   className="validate" value={this.state.newPassword}
                   onChange={this.handleChange} required/>
                   <label htmlFor="newPassword">Password</label>
                 </div>
                 <div className="input-field col s12 m3">
-                  <button className="btn teal waves-effect waves-light disabled" id="addPass">Add</button>
+                  <button type="submit" className="btn teal waves-effect waves-light disabled" id="addPass">Add</button>
                 </div>
               </div>
               {PassVal}

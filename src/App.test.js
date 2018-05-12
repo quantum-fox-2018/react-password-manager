@@ -37,6 +37,7 @@ describe('<App />', () => {
       <Switch />,
       <Route />
     ])).toHaveLength[5]
+    // kalo pake toBeTruthy malah error
   })
 
   it('it should redirect to SignInUp', () => {

@@ -117,14 +117,16 @@ class EditPassword extends Component {
     let email = this.state.editEmail 
 
     if (upperCase && lowerCase && specialChar &&
-    number && minLength && url && email) {
-      this.setState({ 
-        isItValidE: true 
-      }, () => {
-          editButton.classList.remove('disabled')
-      })
+    number && minLength) {
+      if (editButton&& url && email) {
+        editButton.classList.remove('disabled')
+      }
+      this.setState({isItValidE: true})
     } else {
-      this.setState({ isItValidE: false}, () => {editButton.classList.add('disabled')})
+      if (editButton&& url && email) {
+        editButton.classList.add('disabled')
+      }
+      this.setState({ isItValidE: false})
     }
   }
 
@@ -135,9 +137,14 @@ class EditPassword extends Component {
       editEmail: '',
       editPass: ''
     })
-    document.getElementById('editUrl').value = ''
-    document.getElementById('editEmail').value = ''
-    document.getElementById('editPass').value = ''
+    // let url = document.getElementById('editUrl')
+    // let email = document.getElementById('editEmail')
+    // let pass = document.getElementById('editPass')
+    // if ( url && email && pass ) {
+    //   url.value = ''
+    //   email.value = ''
+    //   pass.value = ''
+    // }
   }
 
 	submitChange = (e) => {

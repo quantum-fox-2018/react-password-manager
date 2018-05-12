@@ -66,7 +66,7 @@ export const EditPassword = (payload, userId) => {
     password: payload.password,
     updatedAt: firebase.database.ServerValue.TIMESTAMP
   }
-  console.log('Update Password', payload)
+  // console.log('Update Password', payload)
   return dispatch => {
     Database.ref(`/password/${userId}/${passwordId}`)
       .update(payload)
