@@ -50,7 +50,7 @@ export class Login extends Component {
 
   render() {
     return (
-      // <Router>
+      <Router>
       <div className="container">
         <form>
           <div className="form-group">
@@ -62,7 +62,7 @@ export class Login extends Component {
           </div>
           <div className="form-group">
             <label>Password</label>
-            <input type="password" name="password" className="form-control"
+            <input id="password" type="password" name="password" className="form-control"
               value={this.state.password}
               onChange={this.handleChange}
             />
@@ -76,7 +76,7 @@ export class Login extends Component {
           </Link>
         </div>
       </div>
-      // </Router>
+      </Router>
     );
   }
 }

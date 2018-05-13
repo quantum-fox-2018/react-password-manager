@@ -1,24 +1,8 @@
 import {
-  SIGNUP,
   GET_USER_SUCCESS,
   GET_USER_PENDING
 } from './users.actionType'
 import {db} from '../../firebase'
-import firebase from 'firebase'
-
-export const signupUser = (payload) => {
-  let newUser = {
-    ...payload,
-    createdAt: firebase.database.ServerValue.TIMESTAMP,
-    updatedAt: firebase.database.ServerValue.TIMESTAMP
-  }
-  return dispatch => {
-    db.ref('/pass-user').push(newUser)
-    .then(() => {
-      dispatch(userSignUp())
-    })
-  }
-}
 
 export const getUser = (payload) => {
   // console.log('masuk login==', payload)s
@@ -33,13 +17,6 @@ export const getUser = (payload) => {
       }
       dispatch(getUserDataSucces(arrUser))
     })
-  }
-}
-
-const userSignUp = (data) => {
-  return {
-    type: SIGNUP,
-    payload: data
   }
 }
 

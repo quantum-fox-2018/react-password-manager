@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs'
 import './main.css'
 import ListPassword from './ListPassword'
 
-class Home extends Component {
+export class Home extends Component {
   constructor () {
     super()
     this.state = {

@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Signup/> renders without crashing 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    Sign up page
+  </h1>
+  <form>
+    <div
+      className="form-group"
+    >
+      <label>
+        Username
+      </label>
+      <input
+        className="form-control"
+        id="username"
+        name="username"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label>
+        Password
+      </label>
+      <input
+        className="form-control"
+        name="password"
+        onChange={[Function]}
+        type="password"
+        value=""
+      />
+    </div>
+    <button
+      className="btn btn-primary disabled"
+      onClick={[Function]}
+      type="button"
+    >
+      Sign up
+    </button>
+  </form>
+  <div
+    style={
+      Object {
+        "marginTop": "10px",
+      }
+    }
+  >
+    <h4>
+      Password requirements: 
+    </h4>
+    <ul
+      className="text-left"
+      style={
+        Object {
+          "listStyle": "none",
+        }
+      }
+    >
+      <li
+        className="alert alert-dismissible alert-danger"
+      >
+         
+        [ X ]
+         At least 
+        <strong>
+          one lowercase
+        </strong>
+      </li>
+      <li
+        className="alert alert-dismissible alert-danger"
+      >
+         
+        [ X ]
+         At least 
+        <strong>
+          one capital
+        </strong>
+      </li>
+      <li
+        className="alert alert-dismissible alert-danger"
+      >
+         
+        [ X ]
+         At least 
+        <strong>
+          one number
+        </strong>
+      </li>
+      <li
+        className="alert alert-dismissible alert-danger"
+      >
+         
+        [ X ]
+         Minimum 
+        <strong>
+          6 characters
+        </strong>
+      </li>
+      <li
+        className="alert alert-dismissible alert-danger"
+      >
+         
+        [ X ]
+         At least 
+        <strong>
+          Use one symbol
+        </strong>
+      </li>
+    </ul>
+  </div>
+</div>
+`;

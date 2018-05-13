@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App/> renders without crashing 1`] = `
+<div
+  className="App"
+>
+  <header
+    className="App-header"
+  >
+    <img
+      alt="logo"
+      className="App-logo"
+      src="logo.svg"
+    />
+    <h1
+      className="App-title"
+    >
+      Password Manager
+    </h1>
+  </header>
+  <div
+    className="container"
+  >
+    <form>
+      <div
+        className="form-group"
+      >
+        <label>
+          Username
+        </label>
+        <input
+          className="form-control"
+          name="username"
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label>
+          Password
+        </label>
+        <input
+          className="form-control"
+          id="password"
+          name="password"
+          onChange={[Function]}
+          type="password"
+          value=""
+        />
+      </div>
+      <button
+        className="btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        Login
+      </button>
+    </form>
+    <div
+      className="container"
+    >
+      <p>
+        New user?
+      </p>
+      <a
+        href="/signup"
+        onClick={[Function]}
+      >
+        Sign up Here
+      </a>
+    </div>
+  </div>
+</div>
+`;

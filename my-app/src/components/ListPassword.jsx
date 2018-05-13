@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import {removePassword} from '../store/password/password.action'
 
-class ListPassword extends Component {
+export class ListPassword extends Component {
   constructor () {
     super()
     this.state = {

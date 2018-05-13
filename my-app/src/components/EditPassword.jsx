@@ -47,6 +47,29 @@ class EditPassword extends Component {
     this.props.editPassword(newPass, user)
     this.props.history.push('/home')
   }
+  lowerCase () {
+    return (this.state.editPassword.match(/^(?=.*[a-z])/))
+  }
+  
+  upperCase () {
+    return (this.state.editPassword.match(/^(?=.*[A-Z])/)) 
+  }
+  
+  oneNum () {
+    return (this.state.editPassword.match(/^(?=.*[0-9])/))
+  }
+  
+  minLength () {
+    return (this.state.editPassword.length > 6) ? true : false
+  }
+
+  specialChar () {
+    return (this.state.editPassword.match(/^(?=.*[_\W])/))
+  }
+
+  allValid() {
+    return (this.minLength() && this.upperCase() && this.lowerCase() && this.oneNum() && this.specialChar())
+  }
   render() {
     return (
       <div className="container"> 
@@ -73,8 +96,18 @@ class EditPassword extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <button type="button" className="btn btn-primary" onClick={this.editPasswordButton}>Submit</button>
+            <button type="button" className={"btn btn-primary "+ (this.allValid() ? "active" : "disabled")} onClick={this.editPasswordButton}>Submit</button>
           </form>
+          <div style={{marginTop:'10px'}}>
+          <h4>Password requirements: </h4>
+            <ul className="text-left" style={{listStyle: "none"}}>
+              <li className={"alert alert-dismissible " + (this.lowerCase() ? "alert-success" : "alert-danger")}> {this.lowerCase() ? '[ O ]': '[ X ]'} At least <strong>one lowercase</strong></li>
+              <li className={"alert alert-dismissible " + (this.upperCase() ? "alert-success" : "alert-danger")}> {this.upperCase() ? '[ O ]': '[ X ]'} At least <strong>one capital</strong></li>
+              <li className={"alert alert-dismissible " + (this.oneNum() ? "alert-success" : "alert-danger")}> {this.oneNum() ? '[ O]': '[ X ]'} At least <strong>one number</strong></li>
+              <li className={"alert alert-dismissible " + (this.minLength() ? "alert-success" : "alert-danger")}> {this.minLength() ? '[ O ]': '[ X ]'} Minimum <strong>6 characters</strong></li>
+              <li className={"alert alert-dismissible " + (this.specialChar() ? "alert-success" : "alert-danger")}> {this.specialChar() ? '[ O ]': '[ X ]'} At least <strong>Use one symbol</strong></li>
+            </ul>
+          </div>
       </div>
     );
   }

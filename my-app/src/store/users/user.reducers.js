@@ -1,5 +1,4 @@
 import {
-  SIGNUP,
   GET_USER_SUCCESS,
   GET_USER_PENDING
 } from './users.actionType'
@@ -11,11 +10,6 @@ const initialState = {
 
 const reducers = (state={...initialState}, action) => {
   switch (action.type) {
-    case SIGNUP:
-    return ({
-      ...state,
-      data: action.payload
-    })
     case GET_USER_SUCCESS:
     return ({
       ...state,

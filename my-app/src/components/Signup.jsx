@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import bcrypt from 'bcryptjs'
-import {signupUser} from '../store/users/users.action'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-
+import {db} from '../firebase'
+import firebase from 'firebase'
+import jwt from 'jsonwebtoken'
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
+
 class Signup extends Component {
   constructor () {
     super ()
@@ -16,7 +16,7 @@ class Signup extends Component {
   }
 
   handleChange = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     this.setState({
       [e.target.name] : e.target.value
     })
@@ -27,39 +27,77 @@ class Signup extends Component {
     let hash = bcrypt.hashSync(this.state.password,salt)
     let newUser = {
       username: this.state.username,
-      password: hash
+      password: hash,
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
+      updatedAt: firebase.database.ServerValue.TIMESTAMP
     }
-    this.props.signupUser(newUser)
-    history.push('/')
+    // this.props.signupUser(newUser)
+    db.ref('/pass-user').push(newUser)
+    .then(() => {
+      let token = jwt.sign({username: newUser.username,password: newUser.password}, 'kitten')
+      localStorage.setItem('username', this.state.username)
+      localStorage.setItem('token', token)
+      history.push('/home')
+    })
   }
 
+  lowerCase () {
+    return (this.state.password.match(/^(?=.*[a-z])/))
+  }
+  
+  upperCase () {
+    return (this.state.password.match(/^(?=.*[A-Z])/)) 
+  }
+  
+  oneNum () {
+    return (this.state.password.match(/^(?=.*[0-9])/))
+  }
+  
+  minLength () {
+    return (this.state.password.length > 6) ? true : false
+  }
+
+  specialChar () {
+    return (this.state.password.match(/^(?=.*[_\W])/))
+  }
+
+  allValid() {
+    return (this.minLength() && this.upperCase() && this.lowerCase() && this.oneNum() && this.specialChar())
+  }
   render() {
     return (
       <div className="container">
         <h1>Sign up page</h1>
         <form>
-          <div class="form-group">
+          <div className="form-group">
             <label>Username</label>
-            <input type="text"  name="username" class="form-control"
+            <input type="text" id="username" name="username" className="form-control"
               value={this.state.username}
               onChange={this.handleChange}
             />
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label>Password</label>
-            <input type="password" name="password" class="form-control"
+            <input type="password" name="password" className="form-control"
               value={this.state.password}
               onChange={this.handleChange}
             />
           </div>
-          <button type="button" class="btn btn-primary" onClick={this.addNewUser}>Sign up</button>
+          <button type="button" className={"btn btn-primary "+ (this.allValid() ? "active" : "disabled")} onClick={this.addNewUser}>Sign up</button>
         </form>
+        <div style={{marginTop:'10px'}}>
+          <h4>Password requirements: </h4>
+            <ul className="text-left" style={{listStyle: "none"}}>
+              <li className={"alert alert-dismissible " + (this.lowerCase() ? "alert-success" : "alert-danger")}> {this.lowerCase() ? '[ O ]': '[ X ]'} At least <strong>one lowercase</strong></li>
+              <li className={"alert alert-dismissible " + (this.upperCase() ? "alert-success" : "alert-danger")}> {this.upperCase() ? '[ O ]': '[ X ]'} At least <strong>one capital</strong></li>
+              <li className={"alert alert-dismissible " + (this.oneNum() ? "alert-success" : "alert-danger")}> {this.oneNum() ? '[ O]': '[ X ]'} At least <strong>one number</strong></li>
+              <li className={"alert alert-dismissible " + (this.minLength() ? "alert-success" : "alert-danger")}> {this.minLength() ? '[ O ]': '[ X ]'} Minimum <strong>6 characters</strong></li>
+              <li className={"alert alert-dismissible " + (this.specialChar() ? "alert-success" : "alert-danger")}> {this.specialChar() ? '[ O ]': '[ X ]'} At least <strong>Use one symbol</strong></li>
+            </ul>
+          </div>
       </div>
     );
   }
 }
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  signupUser
-}, dispatch)
 
-export default connect(null, mapDispatchToProps) (Signup);
+export default Signup;
