@@ -31,6 +31,7 @@ class ShowPassword extends Component {
           let showedPass = this.props.data.password
           swal('Good Job!', 'Authentication Succes', 'success')
             .then(result => {
+              console.log('user Data ===',dataUser)
               ReactDOM.render(showedPass, hiddenPass)
               this.closeModal(passwordId)
               this.resetState()
@@ -67,7 +68,7 @@ class ShowPassword extends Component {
             <h4 className="header2">Insert Your Password</h4>
             <div className="row">
               <div className="input-field col s12">
-                <input type="text" value={email} disabled/>
+                <input type="text" name="userEmail" value={email} disabled/>
               </div>
               <div className="input-field col s12">
                 <label>Password :</label>

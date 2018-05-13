@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PasswordContent from './PasswordContent'
 import SearchPassword from './SearchPassword'
 
-class PasswordList extends Component {
+export class PasswordList extends Component {
   render() {
     return (
       <div className="container">

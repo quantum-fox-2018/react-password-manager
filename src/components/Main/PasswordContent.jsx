@@ -5,6 +5,7 @@ import TbodyPassword from './TbodyPassword'
 class PasswordContent extends Component {
   render() {
     const { data, loading, error, searchValue, searchData } = this.props.passwords
+    // console.log('dari component', this.props.passwords)
     if (!error.status && loading) {
       return (
       <tr><td colSpan="6">
@@ -14,16 +15,19 @@ class PasswordContent extends Component {
       </td></tr>
       )
     } else if (searchValue.length !== 0) {
+      // console.log('Kesini ?')
       let passwordSearch = searchData.map((password) =>
         <TbodyPassword data={password} key={"search-pwd"+password.id} />
       )
       return passwordSearch
     } else if (!loading && data && !error.status) {
+      // console.log('Kesini ? map')
       let passwordCollection = data.map((password) =>
         <TbodyPassword data={password} key={"pwd"+password.id} />
       ) 
       return (passwordCollection)
     } else {
+      // console.log('Ke error ?')
       return (
         <tr>
           <td colSpan="6">

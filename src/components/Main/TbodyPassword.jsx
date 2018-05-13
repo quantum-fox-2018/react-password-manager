@@ -8,7 +8,7 @@ import EditPassword from './EditPassword'
 import ShowPass from './ShowPassword'
 import '../../style/MaterialIcon.css'
 
-class TbodyPassword extends Component {
+export class TbodyPassword extends Component {
   dateFormat (times) {
     let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     let date = new Date(times).getDate()
