@@ -55,7 +55,7 @@ export class Login extends Component {
         <form>
           <div className="form-group">
             <label>Username</label>
-            <input type="text"  name="username" className="form-control"
+            <input type="text"  id="username" name="username" className="form-control"
               value={this.state.username}
               onChange={this.handleChange}
             />
