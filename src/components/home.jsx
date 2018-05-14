@@ -24,18 +24,27 @@ class home extends Component {
     e.preventDefault()
     this.setState({
       [e.target.name] : e.target.value,
-    })
+    }, () => {
+      const token = localStorage.getItem('token')
+      const decoded = jwt.verify(token, 'SECRET')
+      let search = this.props.passmanager.data.filter(data => {
+        return data.website.indexOf(this.state.search) !== -1 && data.username === decoded.username
+      })
+      this.setState({
+        dataSearch: search
+      })
+    })    
   }
   dontEnter = () => {
     alert('LOGIN FIRST!')
     this.props.history.push("/")
   }
   search = () => {
-    let search = this.props.passmanager.data.filter(data => {
-      return data.website.indexOf(this.state.search) !== -1
-    })
-    this.state.dataSearch = search
-    console.log('state',this.state.dataSearch)
+    // let search = this.props.passmanager.data.filter(data => {
+    //   return data.website.indexOf(this.state.search) !== -1
+    // })
+    // this.state.dataSearch = search
+    // console.log('state',this.state.dataSearch)
   }
   render() {
     if(localStorage.getItem('token')){
@@ -76,6 +85,7 @@ class home extends Component {
                     <th>Website</th>
                     <th>Password</th>
                     <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                   </tr>
                   {password}

@@ -28,9 +28,14 @@ class login extends Component {
           localStorage.setItem('token', token)
           alert('Login success!')
           this.props.history.push('/home')
+        } else {
+          alert('Password is wrong!')
         }
+      } else {
+        alert('Email not found!')
       }
     })
+    window.location.reload()
   }
   handleChange = (e) => {
     e.preventDefault()

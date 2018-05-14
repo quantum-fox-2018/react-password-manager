@@ -11,7 +11,9 @@ class edit extends Component {
     this.state = {
       website: '',
       password: '',
-      key: ''
+      key: '',
+      createdAt: '',
+      updatedAt: ''
     }
   }
   componentDidMount() {
@@ -22,7 +24,8 @@ class edit extends Component {
       if(nextProps.match.params.key === data.key){
         this.setState({
           website: data.website,
-          password: data.password
+          password: data.password,
+          createdAt: data.createdAt
         })
       }
     })
@@ -34,15 +37,16 @@ class edit extends Component {
     db.ref('password-manager/manager/'+this.props.match.params.key).set({
       username: decoded.username,
       website: this.state.website,
-      password: this.state.password
+      password: this.state.password,
+      createdAt: this.state.createdAt,
+      updatedAt: Date.now()
     })
   }
   handleChange = (e) => {
     e.preventDefault()
     this.setState({
       [e.target.name] : e.target.value
-    })
-    this.passwordCheck()
+    }, () => this.passwordCheck())
   }
   passwordCheck = () => {
     let myInput = this.state.password;
@@ -106,7 +110,7 @@ class edit extends Component {
             onChange={this.handleChange}
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required
             />
-            <button className="btn" type="button" onClick={this.submitPassword}>Submit</button>
+            <button className="btn" type="button" onClick={this.editPassword}>Submit</button>
           </form>
           <div id="message">
             <h3>Password must contain the following:</h3>

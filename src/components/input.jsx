@@ -26,8 +26,7 @@ class input extends Component {
     e.preventDefault()
     this.setState({
       [e.target.name] : e.target.value
-    })
-    this.passwordCheck()
+    }, () => this.passwordCheck())
   }
   passwordCheck = () => {
     let myInput = this.state.password;

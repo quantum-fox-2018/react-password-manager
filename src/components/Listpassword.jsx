@@ -67,6 +67,7 @@ class Listpassword extends Component {
         <td>{this.props.data.website}</td>
         <td><input id="showPass" type={this.state.type} value={this.props.data.password} disabled/></td>
         <td>{this.props.data.createdAt}</td>
+        <td>{this.props.data.updatedAt}</td>
         <td>
           <span role="img" aria-label="" onClick={this.showPass}>👁 </span>
           <Link to={`/home/${this.props.data.key}`}><span role="img" aria-label="">📝 </span></Link>
