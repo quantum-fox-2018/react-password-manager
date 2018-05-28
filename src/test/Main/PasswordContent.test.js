@@ -41,8 +41,7 @@ describe('<PasswordContent />', () => {
   beforeAll(() => {
     storeMock = mockStore(initialState)
     mountedComp = mount(<PasswordContent store={storeMock} />)
-    shallowComp = shallow(<PasswordContent store={store} />)
-
+    shallowComp = shallow(<PasswordContent store={storeMock} />)
   })
 
   it('should renders without crashing', () => {
@@ -52,7 +51,7 @@ describe('<PasswordContent />', () => {
     // console.log(mountedComp.find(TbodyPassword))
     ReactDOM.render(shallowComp, div)
     ReactDOM.unmountComponentAtNode(div)
-    initialState.passwords.loading = true
+    // initialState.passwords.loading = true
   })
 
   it('should render loading component', () => {
@@ -73,13 +72,13 @@ describe('<PasswordContent />', () => {
     initialState.passwords.searchValue = 'adaisi'
   })
 
-  // it('should render TbodyPassword with searchData Value', () => {
-  //   // initialState.passwords.searchValue = 'adaisi'
-  //   // console.log('==============================')
-  //   // console.log(shallowComp.prop('passwords'))
-  //   // console.log(mountedComp.children().get(0))
-  //   // console.log(mountedComp.find('td'))
-  // })
+  it('should render TbodyPassword with searchData Value', () => {
+    initialState.passwords.searchValue = 'adaisi'
+    console.log('==============================')
+    console.log(shallowComp.prop('passwords'))
+    console.log(mountedComp.children().get(0))
+    console.log(mountedComp.find('td'))
+  })
 
   // it('should render TbodyPassword with data value', () => {
 
