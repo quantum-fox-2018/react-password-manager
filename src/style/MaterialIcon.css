@@ -1,0 +1,25 @@
+.material-icons:hover {
+  cursor: pointer;
+  color: teal;
+}
+
+.material-icons {
+  color: black;
+}
+
+.actions {
+  display: inline-flex;
+}
+
+.dropdown-menu {
+  width: 60px;
+}
+
+.dropdown-menu li:hover {
+  cursor: pointer;
+  color: teal;
+}
+
+.btn {
+  margin: 0px 5px;
+}
